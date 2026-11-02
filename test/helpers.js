@@ -16,7 +16,7 @@ function load(relativePath) {
   }
 }
 
-// Returns a student file's source without comments (to check rules such as "use .then(), not async/await").
+// Returns a student file's source without comments.
 function sourceOf(relativePath) {
   const text = fs.readFileSync(path.join(ROOT, relativePath), "utf8");
   return text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
@@ -90,7 +90,8 @@ function describe(run) {
 
 const trimmed = (lines) => lines.map((line) => line.trim());
 
-// Two checks every exercise shares: the function returns the whole Promise chain, and uses .then() (no async/await).
+// A check every exercise shares: the function returns a Promise that resolves only after the result was printed.
+// Both styles pass: an async function with await, or return fetch(...).then(...).
 // `expected` is the line that must already be printed when the Promise resolves, or a function (lines) => boolean.
 function sharedTests(n, file, fnName, args, expected) {
   const { test } = require("node:test");
@@ -98,21 +99,15 @@ function sharedTests(n, file, fnName, args, expected) {
   const printed = typeof expected === "function" ? expected : (lines) => trimmed(lines).includes(expected);
   const what = typeof expected === "function" ? "the result" : `"${expected}"`;
 
-  test(`Exercise ${n}: returns the Promise chain (the result is printed by the time it resolves)`, async () => {
+  test(`Exercise ${n}: returns a Promise that resolves after the result is printed`, async () => {
     const fn = load(file)[fnName];
     const run = await runWithFakeApi(() => fn(...args));
-    assert.ok(run.isPromise, `${fnName} should return a Promise - add "return" before the chain${describe(run)}`);
+    assert.ok(run.isPromise, `${fnName} should return a Promise - make it an async function, or return the fetch(...).then(...) chain${describe(run)}`);
     assert.ok(!run.timedOut, `the Promise returned by ${fnName} never resolved${describe(run)}`);
     assert.ok(
       printed(run.resolvedLines || []),
-      `return the whole chain (return fetch(...).then(...).then(...)), so ${what} is already printed when the returned Promise resolves${describe(run)}`
+      `${what} should already be printed when the returned Promise resolves - await every fetch and .json() (or return the whole .then chain)${describe(run)}`
     );
-  });
-
-  test(`Exercise ${n}: uses .then() and not async/await`, () => {
-    const source = sourceOf(file);
-    assert.match(source, /\.then\s*\(/, `use .then() in ${file}`);
-    assert.doesNotMatch(source, /\b(async|await)\b/, `this exercise is about .then() - don't use async/await in ${file}`);
   });
 }
 

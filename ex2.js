@@ -1,15 +1,16 @@
 // Exercise 2: Get Post Details
-// Rules: return the Promise, use .then() (no async/await), show the result with console.log inside .then().
+// Rules: the function returns a Promise (an async function does that for you) and shows the result with console.log.
+// Use async/await + try/catch (recommended) or .then()/.catch() - both are fine.
 
 /**
  * Fetch https://jsonplaceholder.typicode.com/posts/<postId>
- * Use .then() to show "Post title: <title>"
+ * Show "Post title: <title>"
  *
  * Example output:
  *   Post title: sunt aut facere repellat provident occaecati excepturi optio reprehenderit
  *
  * @param {number} postId
- * @returns {Promise} the Promise chain (return it, so whoever calls the function can wait for it)
+ * @returns {Promise} resolves after the result was printed (so whoever calls the function can wait for it)
  */
 function getPost(postId) {
   // write your code here

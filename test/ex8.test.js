@@ -13,7 +13,7 @@ test("Exercise 8: fetches the user first, then the user's posts", async () => {
   const postsCall = run.calls.findIndex((c) => postsOf(1).test(c.url));
   assert.ok(userCall !== -1, `Step 1: fetch the user: https://jsonplaceholder.typicode.com/users/1${describe(run)}`);
   assert.ok(postsCall !== -1, `Step 2: fetch the posts of that user: https://jsonplaceholder.typicode.com/posts?userId=1${describe(run)}`);
-  assert.ok(userCall < postsCall, `fetch the posts only after the user arrived (inside .then)${describe(run)}`);
+  assert.ok(userCall < postsCall, `fetch the posts only after the user arrived (await it first, or fetch inside .then)${describe(run)}`);
 });
 
 test("Exercise 8: getUserFirstPost(1) prints the title of the first post", async () => {

@@ -15,7 +15,7 @@ test("Exercise 9: fetches the post first, then its comments", async () => {
     commentsCall !== -1,
     `Step 2: fetch the comments: https://jsonplaceholder.typicode.com/posts/1/comments (or /comments?postId=1)${describe(run)}`
   );
-  assert.ok(postCall < commentsCall, `fetch the comments only after the post arrived (inside .then)${describe(run)}`);
+  assert.ok(postCall < commentsCall, `fetch the comments only after the post arrived (await it first, or fetch inside .then)${describe(run)}`);
 });
 
 test("Exercise 9: getPostCommentsCount(1) prints the number of comments", async () => {

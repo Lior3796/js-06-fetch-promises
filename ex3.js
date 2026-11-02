@@ -1,15 +1,16 @@
 // Exercise 3: Show User's Email
-// Rules: return the Promise, use .then() (no async/await), show the result with console.log inside .then().
+// Rules: the function returns a Promise (an async function does that for you) and shows the result with console.log.
+// Use async/await + try/catch (recommended) or .then()/.catch() - both are fine.
 
 /**
  * Fetch user by ID
- * Use .then() to print "User's email: <email>"
+ * Print "User's email: <email>"
  *
  * Example output:
  *   User's email: Sincere@april.biz
  *
  * @param {number} userId
- * @returns {Promise} the Promise chain (return it, so whoever calls the function can wait for it)
+ * @returns {Promise} resolves after the result was printed (so whoever calls the function can wait for it)
  */
 function getUserEmail(userId) {
   // write your code here

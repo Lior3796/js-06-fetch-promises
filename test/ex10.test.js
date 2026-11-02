@@ -20,7 +20,7 @@ test("Exercise 10: takes the userId from the todo (todo 21 belongs to user 2)", 
   const userCall = run.calls.findIndex((c) => /\/users\/2$/.test(c.url));
   assert.ok(todoCall !== -1, `Step 1: fetch the todo: https://jsonplaceholder.typicode.com/todos/21${describe(run)}`);
   assert.ok(userCall !== -1, `Step 3: fetch the user with the todo's userId: https://jsonplaceholder.typicode.com/users/2${describe(run)}`);
-  assert.ok(todoCall < userCall, `fetch the user only after the todo arrived (inside .then)${describe(run)}`);
+  assert.ok(todoCall < userCall, `fetch the user only after the todo arrived (await it first, or fetch inside .then)${describe(run)}`);
   assert.ok(
     lines.includes("Todo title: suscipit repellat esse quibusdam voluptatem incidunt"),
     `should print: Todo title: suscipit repellat esse quibusdam voluptatem incidunt${describe(run)}`
